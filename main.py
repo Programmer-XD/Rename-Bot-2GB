@@ -1,3 +1,194 @@
+async def bored(_, message):
+    if message.reply_to_message:
+       url = "https://nekos.best/api/v2/bored"
+       r = requests.get(url)
+       e = r.json()
+       boredme = e["results"][0]["url"]
+       name1 = message.from_user.first_name
+       name2 = message.reply_to_message.from_user.first_name
+       await message.reply_to_message.reply_video(boredme, caption="*{} bored to see {}*~".format(name1, name2))
+       return
+    else:
+      url = "https://nekos.best/api/v2/bored"
+      r = requests.get(url)
+      e = r.json()
+      name = message.from_user.first_name
+      boredme = e["results"][0]["url"]
+      await message.reply_video(boredme, caption="*Today Was So Boring {}~kun Any Idea?*~".format(name))
+      return
+
+
+@bot.on_message(filters.command("pat"))
+async def pat(_, message):
+    if message.reply_to_message:
+       url = "https://nekos.best/api/v2/pat"
+       r = requests.get(url)
+       e = r.json()
+       patme = e["results"][0]["url"]
+       name1 = message.from_user.first_name
+       name2 = message.reply_to_message.from_user.first_name
+       await message.reply_to_message.reply_video(patme, caption="*{} pats {}*~".format(name1, name2))
+    else:    
+      name = (
+          message.reply_to_message.from_user.first_name
+          if message.reply_to_message
+          else message.from_user.first_name
+      )
+      url = "https://nekos.best/api/v2/pat"
+      r = requests.get(url)
+      e = r.json()
+      patme = e["results"][0]["url"]
+      await message.reply_video(patme, caption=random.choice(OWO).format(name))
+
+@bot.on_message(filters.command("hug"))
+async def hug(_, message):
+
+    if message.reply_to_message:
+       url = "https://nekos.best/api/v2/hug"
+       r = requests.get(url)
+       e = r.json()
+       hugme = e["results"][0]["url"]
+
+       name1 = message.from_user.first_name
+       name2 = message.reply_to_message.from_user.first_name
+       await message.reply_to_message.reply_video(hugme, caption="*{} hugs {}*".format(name1, name2))
+    else:
+       url = "https://nekos.best/api/v2/hug"
+       r = requests.get(url)
+       e = r.json()
+       hugme = e["results"][0]["url"]
+
+       await message.reply_video(hugme, caption="*Hugs u with all my love*~")
+
+@bot.on_message(filters.command("slap"))      
+async def slap(_, message):
+
+    if message.reply_to_message:
+       url = "https://nekos.best/api/v2/slap"
+       r = requests.get(url)
+       e = r.json()
+       slapme = e["results"][0]["url"]
+
+       name1 = message.from_user.first_name
+       name2 = message.reply_to_message.from_user.first_name
+       await message.reply_to_message.reply_video(slapme, caption="*{} slaps {}*".format(name1, name2))
+    else:
+       url = "https://nekos.best/api/v2/slap"
+       r = requests.get(url)
+       e = r.json()
+       slapme = e["results"][0]["url"]
+
+       await message.reply_video(slapme, caption="Here... Take this from me.")
+
+@bot.on_message(filters.command("cute"))
+async def cute(_, message):
+    name = message.from_user.first_name         
+    url = f"https://nekos.best/api/v2/neko"
+    r = requests.get(url)
+    e = r.json()
+    cuteme = e["results"][0]["url"]
+    await message.reply_photo(
+        cuteme, caption="Thank UwU {}-Kun  *smiles and hides ^~^*".format(name)
+    )
+
+@bot.on_message(filters.command("waifu"))
+async def waifu(_, message):
+    name = message.from_user.first_name         
+    url = f"https://nekos.best/api/v2/waifu"
+    r = requests.get(url)
+    e = r.json()
+    waifume = e["results"][0]["url"]
+    await message.reply_photo(
+        waifume, caption="Here I Am {}-Kun's *Waifu*".format(name)
+    )
+
+@bot.on_message(filters.command("kitsune"))
+async def kitsune(_, message):
+    name = message.from_user.first_name         
+    url = f"https://nekos.best/api/v2/kitsune"
+    r = requests.get(url)
+    e = r.json()
+    kitsuneme = e["results"][0]["url"]
+    await message.reply_photo(
+        kitsuneme, caption="Did You Called Me {}-Kun's *?*".format(name)
+    )
+
+@bot.on_message(filters.command("sleep"))
+async def sleep(_, message):
+    sleep_type = random.choice(("Text", "Gif", "Video"))
+    if sleep_type == "Gif":
+        try:
+            url = "https://nekos.best/api/v2/sleep"
+            r = requests.get(url)
+            e = r.json()
+            sleepme = e["results"][0]["url"]
+            await message.reply_video(sleepme)
+
+        except BadRequest:
+            sleep_type = "Text"
+
+    if sleep_type == "Video":
+        try:
+            bed = "https://telegra.ph/file/f0fb71c72e059de34b565.mp4"
+            await message.reply_video(bed)
+        except BadRequest:
+            sleep_type = "Text"
+
+    if sleep_type == "Text":
+        z = ". . . (∪｡∪)｡｡｡zzzZZ"
+        await message.reply_text(z)
+
+
+@bot.on_message(filters.command("owo"))
+async def owo(_, message):
+    name = message.from_user.first_name
+    ke = random.choice(OWO)
+    await message.reply_text(
+        ke.format(name)
+    )
+
+
+@bot.on_message(filters.command("neko"))
+async def neko(_, message):
+    name = message.from_user.first_name
+    ke = random.choice(neko_text)
+    url = "https://nekos.best/api/v2/neko"
+    r = requests.get(url)
+    e = r.json()
+    img = e["results"][0]["url"]
+    await message.reply_photo(photo=img,
+        caption=ke.format(name)
+    )
+
+
+
+
+
+
+from web import keep_alive, web_server
+from aiohttp import web
+
+async def start_services():        
+        server = web.AppRunner(web_server())
+        await server.setup()
+        await web.TCPSite(server, BIND_ADDRESS, PORT).start()
+        log.info("Web Server Initialized Successfully")
+        log.info("=========== Service Startup Complete ===========")
+
+        asyncio.create_task(keep_alive())
+        log.info("Keep Alive Service Started")
+        log.info("=========== Initializing Web Server ===========")
+
+
+if __name__ == "__main__":
+     loop = asyncio.get_event_loop()
+     loop.run_until_complete(start_services())
+     bot.run()
+     log.info('Bot Started!')
+     with bot:
+        bot.send_message(f"@{SUPPORT}", "**Nyan nyan~ Neko Neko is back from a fresh start!** 🐾😸✨")
+
+
 import logging, os, random
 import asyncio
 
